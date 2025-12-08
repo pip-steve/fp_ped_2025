@@ -1,0 +1,43 @@
+import os
+import time
+from selenium import webdriver
+from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
+
+# Se crea carpeta de descarga para almacenar el dataset
+download_dir = os.path.join(os.getcwd(), "datamexico_csv")
+os.makedirs(download_dir, exist_ok=True)
+
+# Configuracion de navegador
+options = webdriver.ChromeOptions()
+prefs = {
+    "download.default_directory": download_dir,
+    "download.prompt_for_download": False,
+    "download.directory_upgrade": True,
+    "safebrowsing.enabled": True
+}
+options.add_experimental_option("prefs", prefs)
+
+# Inicia Chrome con webdriver-manager
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+
+# URL del Viz Builder con la configuración definida
+url = "https://www.economia.gob.mx/datamexico/es/vizbuilder?booleans=64&cube=coneval_poverty&cuts%5B0%5D=Year%2C2015%2C2020&drilldowns%5B0%5D=Year&drilldowns%5B1%5D=Geography.State&locale=es&measures%5B0%5D=Poverty&measures%5B1%5D=Extreme+Poverty&measures%5B2%5D=Educational+Backwardness&measures%5B3%5D=Deprivation+Social+Security&measures%5B4%5D=Population+with+at+least+3+Social+Lacks"
+
+driver.get(url)
+
+# Carga de pagina
+wait = WebDriverWait(driver, 30)
+
+# Clic en botón "CSV"
+csv_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'CSV')]")))
+csv_button.click()
+
+# Espera de descarga de archivo y finalizacion de scrap
+time.sleep(15)
+
+driver.quit()
+print(f" Archivo CSV descargado en la carpeta: {download_dir}")
