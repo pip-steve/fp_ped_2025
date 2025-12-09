@@ -9,9 +9,16 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
+"""
+Autor: Steve Juarez
+Funcion del script:
+Automatizar la descarga de datos de pobreza desde DataMexico (VizBuilder) usando Selenium.
+Generar un archivo CSV en la carpeta 'datamexico_csv' para analisis posterior.
+"""
+
 def descargar_datamexico():
     """
-    Automatizacion para descarga de datos de pobreza desde DataMexico (VizBuilder).
+    Automatizacion para descarga de datos desde DataMexico.
     Descarga un archivo CSV en la carpeta 'datamexico_csv' dentro del directorio actual.
     """
 
