@@ -6,6 +6,18 @@ import urllib.parse
 from mpl_toolkits.mplot3d import Axes3D
 import seaborn as sns
 
+"""
+Autor: Maviel Cedillo
+Funcion del script:
+Genera visualizaciones estadísticas a partir de la tabla 'coneval_limpio' en SQL Server.
+Se generan los siguientes graficos:
+- Top 10 pobreza en 3D
+- Comparación de cambios más grandes (mejoraron/empeoraron) en 3D
+- Relación Pobreza vs Pobreza extrema
+- Evolución de indicadores con heatmap
+- Cambio anual porcentual
+"""
+
 # Conexión SQL
 server = "localhost\\SQLEXPRESS"
 database = "datamex_coneval"
@@ -97,6 +109,7 @@ plt.plot(nacional.index, nacional.values, marker="o", color='teal', linewidth=2)
 plt.fill_between(nacional.index, nacional.values, color='teal', alpha=0.1)
 plt.title("Cambio anual (%)")
 plt.show()
+
 
 
 
