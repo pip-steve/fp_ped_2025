@@ -3,6 +3,13 @@ from sqlalchemy import create_engine, text
 import pyodbc
 import urllib
 
+"""
+Script: conexion.py
+Autor: Maviel Cedillo
+Funcion del Script:
+Conecta con SQL Server, inserta los datos limpios desde el CSV 'datamexico_coneval_limpio.csv'
+en la base de datos 'datamex_coneval' y permite consultar las primeras filas de la tabla 'coneval_limpio'.
+"""
 
 ## Función para insertar datos
 
@@ -63,4 +70,5 @@ if __name__ == "__main__":
     # insertar_datos()
     # Consultar datos
     consultar_datos()
+
 
