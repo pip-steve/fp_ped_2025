@@ -33,7 +33,7 @@ time.sleep(random.uniform(6, 9))
 
 # Paso 2: buscar "DataMéxico" en Google
 search_box = wait.until(EC.element_to_be_clickable((By.NAME, "q")))
-for char in "DataMéxico":
+for char in "DataMexico":
     search_box.send_keys(char)
     time.sleep(random.uniform(0.4, 0.7))
 search_box.send_keys(Keys.ENTER)
