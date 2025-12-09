@@ -1,6 +1,14 @@
 import os
 import pandas as pd
 
+"""
+Autor: Maviel Cedillo
+Funcion del script:
+Carga el archivo CSV descargado desde DataMexico, aplica limpieza (vacíos y duplicados),
+normaliza nombres de columnas, corrige tipos de datos, transforma a formato tidy y estandariza nombres
+de estados. Genera un archivo limpio 'datamexico_coneval_limpio.csv'.
+"""
+
 def transformacion_y_limpieza():
 
     ## SE CARGA EL ARCHIVO CSV DESDE LA CARPETA
@@ -80,3 +88,4 @@ def transformacion_y_limpieza():
 
 if __name__ == "__main__":
     transformacion_y_limpieza()
+
