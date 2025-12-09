@@ -1,5 +1,5 @@
 # Proyecto Final
-# Analisis estadistico de fluctuacion de pobreza en Mexico
+# Analisis estadistico del comportamiento de la pobreza en Mexico
 ## Asignatura: Programacion para la Extraccion de Datos
 ## Docente: Flores Parra Josue Miguel
 ## Grupo 952
