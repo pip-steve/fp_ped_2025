@@ -1,5 +1,5 @@
 # Proyecto Final
-# Analisis de Precariedad Laboral en Mexico
+# Analisis estadistico de fluctuacion de pobreza en Mexico
 ## Asignatura: Programacion para la Extraccion de Datos
 ## Docente: Flores Parra Josue Miguel
 ## Grupo 952
