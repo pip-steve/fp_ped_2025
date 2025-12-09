@@ -78,7 +78,7 @@ time.sleep(3)
 
 print("URL final construido:", url)
 
-# Paso 5: clic en botón "CSV"
+# Paso 5: clic en botón "CSV" para descarga
 csv_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'CSV')]")))
 csv_button.click()
 
