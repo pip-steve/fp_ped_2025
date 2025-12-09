@@ -9,81 +9,91 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.chrome import ChromeDriverManager
 
-# Se crea carpeta de descarga para almacenar el dataset
-download_dir = os.path.join(os.getcwd(), "datamexico_csv")
-os.makedirs(download_dir, exist_ok=True)
+def descargar_datamexico():
+    """
+    Automatizacion para descarga de datos de pobreza desde DataMexico (VizBuilder).
+    Descarga un archivo CSV en la carpeta 'datamexico_csv' dentro del directorio actual.
+    """
 
-# Configuración de navegador
-options = webdriver.ChromeOptions()
-prefs = {
-    "download.default_directory": download_dir,
-    "download.prompt_for_download": False,
-    "download.directory_upgrade": True,
-    "safebrowsing.enabled": True
-}
-options.add_experimental_option("prefs", prefs)
+    # Se crea carpeta de descarga para almacenar el dataset
+    download_dir = os.path.join(os.getcwd(), "datamexico_csv")
+    os.makedirs(download_dir, exist_ok=True)
 
-# Inicia Chrome con webdriver-manager
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
-wait = WebDriverWait(driver, 60)
+    # Configuracion de navegador
+    options = webdriver.ChromeOptions()
+    prefs = {
+        "download.default_directory": download_dir,
+        "download.prompt_for_download": False,
+        "download.directory_upgrade": True,
+        "safebrowsing.enabled": True
+    }
+    options.add_experimental_option("prefs", prefs)
 
-# Paso 1: abrir Google (tiempos largos por CAPTCHA)
-driver.get("https://www.google.com")
-time.sleep(random.uniform(6, 9))
+    # Inicia Chrome con webdriver-manager
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=options)
+    wait = WebDriverWait(driver, 60)
 
-# Paso 2: buscar "DataMéxico" en Google
-search_box = wait.until(EC.element_to_be_clickable((By.NAME, "q")))
-for char in "DataMexico":
-    search_box.send_keys(char)
-    time.sleep(random.uniform(0.4, 0.7))
-search_box.send_keys(Keys.ENTER)
-time.sleep(random.uniform(8, 12))
+    try:
+        # Paso 1: abrir Google
+        # Se establecieron tiempos de espera un poco largos para dar tiempo de resolver
+        # los captchas, si Chrome pone muchos o son muy complicados y el navegador se cierra,
+        # reiniciar el script para intentarlo nuevamente.
+        
+        driver.get("https://www.google.com")
+        time.sleep(random.uniform(6, 9))
 
-# Paso 3: abrir Vizbuilder base
-base_url = "https://www.economia.gob.mx/datamexico/es/vizbuilder"
-driver.get(base_url)
-time.sleep(random.uniform(10, 14))  # espera larga antes de Vizbuilder
+        # Paso 2: buscar "DataMexico" en Google
+        search_box = wait.until(EC.element_to_be_clickable((By.NAME, "q")))
+        for char in "DataMexico":
+            search_box.send_keys(char)
+            time.sleep(random.uniform(0.4, 0.7))
+        search_box.send_keys(Keys.ENTER)
+        time.sleep(random.uniform(8, 12))
 
-# Paso 4: construcción de URL paso a paso y refresco de página
-url = base_url
+        # Paso 3: abrir Vizbuilder base
+        base_url = "https://www.economia.gob.mx/datamexico/es/vizbuilder"
+        driver.get(base_url)
+        time.sleep(random.uniform(10, 14))  # espera larga antes de Vizbuilder
 
-# Selección de dataset (cube)
-url += "?cube=coneval_poverty"
-driver.get(url)
-time.sleep(3)
+        # Paso 4: construccion de URL paso a paso y refresco de pagina
+        url = base_url
+        url += "?cube=coneval_poverty"
+        driver.get(url)
+        time.sleep(3)
 
-# Selección de idioma
-url += "&locale=es"
-driver.get(url)
-time.sleep(3)
+        url += "&locale=es"
+        driver.get(url)
+        time.sleep(3)
 
-# Selección de filtros (años)
-url += "&cuts[0]=Year,2015,2020"
-driver.get(url)
-time.sleep(3)
+        url += "&cuts[0]=Year,2015,2020"
+        driver.get(url)
+        time.sleep(3)
 
-# Selección de drilldowns
-url += "&drilldowns[0]=Year&drilldowns[1]=Geography.State"
-driver.get(url)
-time.sleep(3)
+        url += "&drilldowns[0]=Year&drilldowns[1]=Geography.State"
+        driver.get(url)
+        time.sleep(3)
 
-# Selección de medidas
-url += "&measures[0]=Poverty"
-url += "&measures[1]=Extreme+Poverty"
-url += "&measures[2]=Educational+Backwardness"
-url += "&measures[3]=Deprivation+Social+Security"
-url += "&measures[4]=Population+with+at+least+3+Social+Lacks"
-driver.get(url)
-time.sleep(3)
+        url += "&measures[0]=Poverty"
+        url += "&measures[1]=Extreme+Poverty"
+        url += "&measures[2]=Educational+Backwardness"
+        url += "&measures[3]=Deprivation+Social+Security"
+        url += "&measures[4]=Population+with+at+least+3+Social+Lacks"
+        driver.get(url)
+        time.sleep(3)
 
-print("URL final construido:", url)
+        print("URL final construido:", url)
 
-# Paso 5: clic en botón "CSV" para descarga
-csv_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'CSV')]")))
-csv_button.click()
+        # Paso 5: clic en boton "CSV" para descarga
+        csv_button = wait.until(EC.element_to_be_clickable((By.XPATH, "//span[contains(text(),'CSV')]")))
+        csv_button.click()
 
-# Paso 6: espera de descarga de archivo y finalización del proceso
-time.sleep(25)
-driver.quit()
+        # Paso 6: espera de descarga de archivo y finalizacion del proceso
+        time.sleep(25)
+        print(f"Archivo CSV descargado en la carpeta: {download_dir}")
 
-print(f"Archivo CSV descargado en la carpeta: {download_dir}")
+    finally:
+        driver.quit()
+
+# Se manda a llamar la funcion
+if __name__ == "__main__":
+    descargar_datamexico()
