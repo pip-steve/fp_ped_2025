@@ -9,7 +9,7 @@
 ### Juarez Ramirez Steve
 
 ## Estructura
-- `webscrapper/` = Automatización con Selenium para descargar CSV.
+- `webscrapper_final/` = Automatización con Selenium para descargar CSV.
 - `procesamiento/` = Limpieza y transformación de datos.
 - `conexion_sql/` = Inserción y consulta en SQL Server.
 - `visualizacion/` = Gráficas y análisis estadístico.
